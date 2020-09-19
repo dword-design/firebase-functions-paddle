@@ -1,4 +1,4 @@
-import { first, pick, property } from '@dword-design/functions'
+import { first, omit, pick, property } from '@dword-design/functions'
 import * as firebase from 'firebase-admin'
 import * as functions from 'firebase-functions'
 
@@ -22,6 +22,7 @@ export const webHook = functions.https.onRequest(async (req, res) => {
         (firebase.auth().getUserByEmail(req.body.email)
           |> await
           |> property('uid'))
+      const user = await firebase.auth().getUser(userId)
       const paddleUserRef = firebase
         .firestore()
         .collection(collectionName)
@@ -46,6 +47,10 @@ export const webHook = functions.https.onRequest(async (req, res) => {
               'update_url',
             ])
         )
+      await firebase.auth().setCustomUserClaims(userId, {
+        ...user.customClaims,
+        paddlePlanId: req.body.subscription_plan_id,
+      })
       break
     }
     case 'subscription_cancelled': {
@@ -59,6 +64,7 @@ export const webHook = functions.https.onRequest(async (req, res) => {
         |> property('docs')
         |> first
         |> property('id')
+      const user = await firebase.auth().getUser(userId)
       await firebase
         .firestore()
         .collection(collectionName)
@@ -66,6 +72,9 @@ export const webHook = functions.https.onRequest(async (req, res) => {
         .collection('subscriptions')
         .doc(req.body.subscription_id)
         .delete()
+      await firebase
+        .auth()
+        .setCustomUserClaims(userId, user.customClaims |> omit('paddlePlanId'))
       break
     }
     default:
