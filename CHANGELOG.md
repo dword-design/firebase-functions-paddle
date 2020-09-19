@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/dword-design/firebase-functions-paddle/compare/v1.0.0...v1.0.1) (2020-09-19)
+
+
+### Bug Fixes
+
+* set user claim ([0ed8ccd](https://github.com/dword-design/firebase-functions-paddle/commit/0ed8ccdd02de8e09757e9d26fd6b588acb814a83))
+
 # 1.0.0 (2020-09-19)
 
 
