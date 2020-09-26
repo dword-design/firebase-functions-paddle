@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/dword-design/firebase-functions-paddle/compare/v1.0.1...v1.0.2) (2020-09-26)
+
+
+### Bug Fixes
+
+* set claims more flexible ([359e810](https://github.com/dword-design/firebase-functions-paddle/commit/359e8102453cdb1c0f2c31e73fe1345f62d17534))
+
 ## [1.0.1](https://github.com/dword-design/firebase-functions-paddle/compare/v1.0.0...v1.0.1) (2020-09-19)
 
 
