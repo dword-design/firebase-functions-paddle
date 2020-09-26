@@ -88,7 +88,7 @@ export const webHook = functions.https.onRequest(async (req, res) => {
         const artificialSubscriptionIds =
           paddleUserRef
             .collection('subscriptions')
-            .where('subscription_id', '!=', null)
+            .where('subscription_id', '==', null)
             .get()
           |> await
           |> property('docs')
