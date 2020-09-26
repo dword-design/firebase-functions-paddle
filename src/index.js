@@ -5,6 +5,25 @@ import * as functions from 'firebase-functions'
 const collectionName = 'paddleUsers'
 firebase.initializeApp()
 
+export const planWritten = functions.firestore
+  .document(`/${collectionName}/{uid}/subscriptions/{subscriptionId}`)
+  .onWrite(async (change, context) => {
+    const user = await firebase.auth().getUser(context.params.uid)
+    if (change.after.exists) {
+      await firebase.auth().setCustomUserClaims(context.params.uid, {
+        ...user.customClaims,
+        paddlePlanId: change.after.data().subscription_plan_id,
+      })
+    } else {
+      await firebase
+        .auth()
+        .setCustomUserClaims(
+          context.params.uid,
+          user.customClaims |> omit('paddlePlanId')
+        )
+    }
+  })
+
 export const webHook = functions.https.onRequest(async (req, res) => {
   switch (req.body.alert_name) {
     case 'subscription_created':
@@ -22,7 +41,6 @@ export const webHook = functions.https.onRequest(async (req, res) => {
         (firebase.auth().getUserByEmail(req.body.email)
           |> await
           |> property('uid'))
-      const user = await firebase.auth().getUser(userId)
       const paddleUserRef = firebase
         .firestore()
         .collection(collectionName)
@@ -47,10 +65,6 @@ export const webHook = functions.https.onRequest(async (req, res) => {
               'update_url',
             ])
         )
-      await firebase.auth().setCustomUserClaims(userId, {
-        ...user.customClaims,
-        paddlePlanId: req.body.subscription_plan_id,
-      })
       break
     }
     case 'subscription_cancelled': {
@@ -64,7 +78,6 @@ export const webHook = functions.https.onRequest(async (req, res) => {
         |> property('docs')
         |> first
         |> property('id')
-      const user = await firebase.auth().getUser(userId)
       await firebase
         .firestore()
         .collection(collectionName)
@@ -72,9 +85,6 @@ export const webHook = functions.https.onRequest(async (req, res) => {
         .collection('subscriptions')
         .doc(req.body.subscription_id)
         .delete()
-      await firebase
-        .auth()
-        .setCustomUserClaims(userId, user.customClaims |> omit('paddlePlanId'))
       break
     }
     default:
