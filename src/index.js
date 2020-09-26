@@ -64,7 +64,7 @@ export const userDeleted = functions.auth.user().onDelete(async user => {
       .get()
     |> await
     |> property('docs')
-    |> filter(snapshot => snapshot.data().cancel_url !== undefined)
+    |> filter(snapshot => snapshot.data().subscription_id !== undefined)
     |> map('id')
   await (subscriptionIds
     |> map(id => paddle.cancelSubscription(id))
@@ -89,10 +89,10 @@ export const webHook = functions.https.onRequest(async (req, res) => {
           firebase
             .firestore()
             .collection(`${collectionName}/${userId}/subscriptions`)
-            .where('subscription_id', '==', null)
             .get()
           |> await
           |> property('docs')
+          |> filter(snapshot => snapshot.data().subscription_id === undefined)
           |> map('id')
         const batch = firebase.firestore().batch()
         artificialSubscriptionIds.forEach(id =>
