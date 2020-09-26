@@ -76,18 +76,19 @@ export const webHook = functions.https.onRequest(async (req, res) => {
     case 'subscription_created':
     case 'subscription_updated': {
       const userId = await getUserId(req.body)
-      const paddleUserRef = firebase
+      await firebase
         .firestore()
         .doc(`${collectionName}/${userId}`)
-      await paddleUserRef.set({
-        ...(req.body |> pick('email')),
-        paddleUserId: req.body.user_id,
-      })
+        .set({
+          ...(req.body |> pick('email')),
+          paddleUserId: req.body.user_id,
+        })
       // delete artificial subscriptions when a real subscription is created
       if (req.body.alert_name === 'subscription_created') {
         const artificialSubscriptionIds =
-          paddleUserRef
-            .collection('subscriptions')
+          firebase
+            .firestore()
+            .collection(`${collectionName}/${userId}/subscriptions`)
             .where('subscription_id', '==', null)
             .get()
           |> await
@@ -95,12 +96,19 @@ export const webHook = functions.https.onRequest(async (req, res) => {
           |> map('id')
         const batch = firebase.firestore().batch()
         artificialSubscriptionIds.forEach(id =>
-          batch.delete(paddleUserRef.doc(`subscriptions/${id}`))
+          batch.delete(
+            firebase
+              .firestore()
+              .doc(`${collectionName}/${userId}/subscriptions/${id}`)
+          )
         )
         await batch.commit()
       }
-      await paddleUserRef
-        .doc(`subscriptions/${req.body.subscription_id}`)
+      await firebase
+        .firestore()
+        .doc(
+          `${collectionName}/${userId}/subscriptions/${req.body.subscription_id}`
+        )
         .set(
           req.body
             |> pick([
