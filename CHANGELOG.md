@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.0...v1.1.1) (2020-09-26)
+
+
+### Bug Fixes
+
+* parse vendor id to int ([7f1c4f0](https://github.com/dword-design/firebase-functions-paddle/commit/7f1c4f0a19edc409a614b2adc144cc36542feb52))
+
 # [1.1.0](https://github.com/dword-design/firebase-functions-paddle/compare/v1.0.2...v1.1.0) (2020-09-26)
 
 
