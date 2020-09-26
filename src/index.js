@@ -42,9 +42,11 @@ export const planWritten = functions.firestore
   .onWrite(async (change, context) => {
     const user = await firebase.auth().getUser(context.params.uid)
     if (change.after.exists) {
+      const subscription = change.after.data()
       await firebase.auth().setCustomUserClaims(context.params.uid, {
         ...user.customClaims,
-        paddlePlanId: change.after.data().subscription_plan_id,
+        paddlePlanId: subscription.subscription_plan_id,
+        paddleSubscriptionId: subscription.subscription_id,
       })
     } else {
       await firebase
@@ -57,18 +59,9 @@ export const planWritten = functions.firestore
   })
 
 export const userDeleted = functions.auth.user().onDelete(async user => {
-  const subscriptionIds =
-    firebase
-      .firestore()
-      .collection(`${collectionName}/${user.uid}/subscriptions`)
-      .get()
-    |> await
-    |> property('docs')
-    |> filter(snapshot => snapshot.data().subscription_id !== undefined)
-    |> map('id')
-  await (subscriptionIds
-    |> map(id => paddle.cancelSubscription(id))
-    |> Promise.all)
+  if (user.customClaims.paddleSubscriptionId !== undefined) {
+    await paddle.cancelSubscription(user.customClaims.paddleSubscriptionId)
+  }
 })
 
 export const webHook = functions.https.onRequest(async (req, res) => {
@@ -122,6 +115,7 @@ export const webHook = functions.https.onRequest(async (req, res) => {
               'subscription_plan_id',
               'unit_price',
               'update_url',
+              'user_id',
             ])
         )
       break
