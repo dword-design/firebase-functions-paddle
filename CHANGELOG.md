@@ -1,3 +1,10 @@
+## [1.1.6](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.5...v1.1.6) (2020-09-26)
+
+
+### Bug Fixes
+
+* foo ([2093ab8](https://github.com/dword-design/firebase-functions-paddle/commit/2093ab82c5d6be5af7e1e5310f73b630819e783d))
+
 ## [1.1.5](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.4...v1.1.5) (2020-09-26)
 
 
