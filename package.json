@@ -20,7 +20,7 @@
     "test": "base test"
   },
   "dependencies": {
-    "@dword-design/functions": "^1.1.4",
+    "@dword-design/functions": "^3.0.0",
     "paddle-sdk": "^2.2.0"
   },
   "devDependencies": {
