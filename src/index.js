@@ -12,10 +12,12 @@ import PaddleSDK from 'paddle-sdk'
 
 const collectionName = 'paddleUsers'
 firebase.initializeApp()
+
 const paddle = new PaddleSDK(
   functions.config().paddle.vendor_id |> parseInt,
   functions.config().paddle.api_key
 )
+
 const getUserId = async paddleUser => {
   const userId =
     firebase
@@ -34,6 +36,7 @@ const getUserId = async paddleUser => {
       |> property('uid')
     )
   }
+
   return userId
 }
 
@@ -87,6 +90,7 @@ export const webHook = functions.https.onRequest(async (req, res) => {
           |> property('docs')
           |> filter(snapshot => snapshot.data().subscription_id === undefined)
           |> map('id')
+
         const batch = firebase.firestore().batch()
         artificialSubscriptionIds.forEach(id =>
           batch.delete(
