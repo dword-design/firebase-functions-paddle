@@ -64,7 +64,7 @@ $ yarn add @dword-design/firebase-functions-paddle
 <!-- LICENSE/ -->
 ## Contribute
 
-Are you missing something or want to contribute? Feel free to file an [issue](https://github.com/dword-design/firebase-functions-paddle/issues) or [pull request](https://github.com/dword-design/firebase-functions-paddle/pulls)! ⚙️
+Are you missing something or want to contribute? Feel free to file an [issue](https://github.com/dword-design/firebase-functions-paddle/issues) or a [pull request](https://github.com/dword-design/firebase-functions-paddle/pulls)! ⚙️
 
 ## Support
 
