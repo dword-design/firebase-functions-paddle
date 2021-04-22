@@ -1,3 +1,11 @@
+## [1.1.14](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.13...v1.1.14) (2021-04-22)
+
+
+### Bug Fixes
+
+* update config files ([233342f](https://github.com/dword-design/firebase-functions-paddle/commit/233342f217f40a88cfddb06863c15c71decb0f38))
+* updated package.json[description] ([#17](https://github.com/dword-design/firebase-functions-paddle/issues/17)) ([f80708d](https://github.com/dword-design/firebase-functions-paddle/commit/f80708dab09e7cdcccc383477b2787bafed1978b))
+
 ## [1.1.13](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.12...v1.1.13) (2021-04-21)
 
 
