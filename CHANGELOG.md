@@ -1,3 +1,10 @@
+## [1.1.16](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.15...v1.1.16) (2021-05-03)
+
+
+### Bug Fixes
+
+* update dependency @dword-design/base to v8 ([#21](https://github.com/dword-design/firebase-functions-paddle/issues/21)) ([7c7bf78](https://github.com/dword-design/firebase-functions-paddle/commit/7c7bf78b89c98c633a2f62fa18d2ff8b351c3479))
+
 ## [1.1.15](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.14...v1.1.15) (2021-04-28)
 
 
