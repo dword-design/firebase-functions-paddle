@@ -2,7 +2,7 @@
   "name": "@dword-design/firebase-functions-paddle",
   "version": "1.1.19",
   "repository": "dword-design/firebase-functions-paddle",
-  "funding": "https://www.buymeacoffee.com/dword",
+  "funding": "https://github.com/sponsors/dword-design",
   "license": "MIT",
   "author": "Sebastian Landwehr <info@sebastianlandwehr.com>",
   "main": "dist/index.js",
