@@ -1,3 +1,11 @@
+## [1.1.22](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.21...v1.1.22) (2021-07-20)
+
+
+### Bug Fixes
+
+* replace forEach with for of ([ecbdeeb](https://github.com/dword-design/firebase-functions-paddle/commit/ecbdeebffc654064a82cb9dd087ffc765e2c4ed4))
+* update config files ([d8091d4](https://github.com/dword-design/firebase-functions-paddle/commit/d8091d4a4feea134b4904ced8fa1df16fa893e3f))
+
 ## [1.1.21](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.20...v1.1.21) (2021-07-15)
 
 
