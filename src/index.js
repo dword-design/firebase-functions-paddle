@@ -92,13 +92,13 @@ export const webHook = functions.https.onRequest(async (req, res) => {
           |> map('id')
 
         const batch = firebase.firestore().batch()
-        artificialSubscriptionIds.forEach(id =>
+        for (const id of artificialSubscriptionIds) {
           batch.delete(
             firebase
               .firestore()
               .doc(`${collectionName}/${userId}/subscriptions/${id}`)
           )
-        )
+        }
         await batch.commit()
       }
       await firebase
