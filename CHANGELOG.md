@@ -1,3 +1,10 @@
+## [1.1.23](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.22...v1.1.23) (2021-12-28)
+
+
+### Bug Fixes
+
+* lock file maintenance ([#54](https://github.com/dword-design/firebase-functions-paddle/issues/54)) ([919a1cd](https://github.com/dword-design/firebase-functions-paddle/commit/919a1cdc46df127edf56c3eb668b388be58a0e98))
+
 ## [1.1.22](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.21...v1.1.22) (2021-07-20)
 
 
