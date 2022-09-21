@@ -8647,10 +8647,10 @@ pacote@*, pacote@^13.0.3, pacote@^13.0.5:
     ssri "^9.0.0"
     tar "^6.1.11"
 
-paddle-sdk@^2.2.0:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/paddle-sdk/-/paddle-sdk-2.5.1.tgz#48aa7a3e449a8ea3d85d810efcb4a28d90102b85"
-  integrity sha512-yvY5k3DQwa7GOfTqtxMv+0mYEY+BAO6TBKh3Da/A1cAauOvd+80om6aCuLT/1Lqd/jeijbSlkxtEzCnp7nRosQ==
+paddle-sdk@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/paddle-sdk/-/paddle-sdk-3.0.0.tgz#c91664bca8dc5572ede86f34cc58f9af446ea21a"
+  integrity sha512-VvSkscLiSyG2n2IZttYIfjSblAeyBg3QLdqq9Yv7TwiTPLpggPp7nl0RiAidIfERRdGIq6tlv5HR1Ue/pNPMUg==
   dependencies:
     got "^10.2.0"
 
