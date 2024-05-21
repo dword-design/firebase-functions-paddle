@@ -15,7 +15,7 @@ firebase.initializeApp()
 
 const paddle = new PaddleSDK(
   functions.config().paddle.vendor_id |> parseInt,
-  functions.config().paddle.api_key
+  functions.config().paddle.api_key,
 )
 
 const getUserId = async paddleUser => {
@@ -56,7 +56,7 @@ export const planWritten = functions.firestore
         .auth()
         .setCustomUserClaims(
           context.params.uid,
-          user.customClaims |> omit('paddlePlanId')
+          user.customClaims |> omit('paddlePlanId'),
         )
     }
   })
@@ -96,7 +96,7 @@ export const webHook = functions.https.onRequest(async (req, res) => {
           batch.delete(
             firebase
               .firestore()
-              .doc(`${collectionName}/${userId}/subscriptions/${id}`)
+              .doc(`${collectionName}/${userId}/subscriptions/${id}`),
           )
         }
         await batch.commit()
@@ -104,7 +104,7 @@ export const webHook = functions.https.onRequest(async (req, res) => {
       await firebase
         .firestore()
         .doc(
-          `${collectionName}/${userId}/subscriptions/${req.body.subscription_id}`
+          `${collectionName}/${userId}/subscriptions/${req.body.subscription_id}`,
         )
         .set(
           req.body
@@ -120,7 +120,7 @@ export const webHook = functions.https.onRequest(async (req, res) => {
               'unit_price',
               'update_url',
               'user_id',
-            ])
+            ]),
         )
       break
     }
@@ -129,7 +129,7 @@ export const webHook = functions.https.onRequest(async (req, res) => {
       await firebase
         .firestore()
         .doc(
-          `${collectionName}/${userId}/subscriptions/${req.body.subscription_id}`
+          `${collectionName}/${userId}/subscriptions/${req.body.subscription_id}`,
         )
         .delete()
       break
