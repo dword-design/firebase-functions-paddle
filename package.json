@@ -5,6 +5,8 @@
   "funding": "https://github.com/sponsors/dword-design",
   "license": "MIT",
   "author": "Sebastian Landwehr <info@sebastianlandwehr.com>",
+  "type": "module",
+  "exports": "./dist/index.js",
   "main": "dist/index.js",
   "files": [
     "dist"
@@ -12,6 +14,7 @@
   "scripts": {
     "checkUnknownFiles": "base checkUnknownFiles",
     "commit": "base commit",
+    "depcheck": "base depcheck",
     "dev": "base dev",
     "lint": "base lint",
     "prepare": "base prepare",
@@ -19,20 +22,20 @@
     "test": "base test"
   },
   "dependencies": {
-    "@dword-design/functions": "^4.0.0",
-    "paddle-sdk": "^2.2.0"
+    "@dword-design/functions": "^6",
+    "paddle-sdk": "^4"
   },
   "devDependencies": {
-    "@dword-design/base": "^8.0.0",
-    "firebase-admin": "^9.2.0",
-    "firebase-functions": "^3.11.0"
+    "@dword-design/base": "^11",
+    "firebase-admin": "^12",
+    "firebase-functions": "^5"
   },
   "peerDependencies": {
-    "firebase-admin": "^9.2.0",
-    "firebase-functions": "^3.11.0"
+    "firebase-admin": "^12",
+    "firebase-functions": "^5"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=18"
   },
   "publishConfig": {
     "access": "public"
