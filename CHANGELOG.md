@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/dword-design/firebase-functions-paddle/compare/v2.0.0...v2.1.0) (2025-08-15)
+
+
+### Features
+
+* paddle billing ([14e7397](https://github.com/dword-design/firebase-functions-paddle/commit/14e739772113e3fe35db31b07e45618f4163ad40))
+
 # [2.0.0](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.26...v2.0.0) (2025-08-15)
 
 
