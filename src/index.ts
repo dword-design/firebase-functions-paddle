@@ -1,3 +1,4 @@
+import { Paddle } from '@paddle/paddle-node-sdk';
 import * as firebase from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { omit, pick } from 'lodash-es';
@@ -9,11 +10,19 @@ interface Subscription {
 }
 const collectionName = 'paddleUsers';
 firebase.initializeApp();
+const isPaddleBilling = !functions.config().paddle.vendor_id;
 
-const paddle = new PaddleSDK(
+const paddleClassic = new PaddleSDK(
   functions.config().paddle.vendor_id,
   functions.config().paddle.api_key,
 );
+
+const paddleBilling = new Paddle(functions.config().paddle.api_key);
+
+const cancelSubscription = (id: number) =>
+  isPaddleBilling
+    ? paddleBilling.subscriptions.cancel(String(id))
+    : paddleClassic.cancelSubscription(id);
 
 const getUserId = async (paddleUser: { user_id: string; email: string }) => {
   const {
@@ -62,12 +71,12 @@ export const planWritten = functions.firestore
 
 export const userDeleted = functions.auth.user().onDelete(async user => {
   if (user.customClaims?.paddleSubscriptionId !== undefined) {
-    await paddle.cancelSubscription(user.customClaims.paddleSubscriptionId);
+    await cancelSubscription(user.customClaims.paddleSubscriptionId);
   }
 });
 
 export const webHook = functions.https.onRequest(async (req, res) => {
-  if (!req.body.alert_name) {
+  if (isPaddleBilling) {
     console.log(req.body);
     return;
   }
