@@ -67,6 +67,11 @@ export const userDeleted = functions.auth.user().onDelete(async user => {
 });
 
 export const webHook = functions.https.onRequest(async (req, res) => {
+  if (!req.body.alert_name) {
+    console.log(req.body);
+    return;
+  }
+
   switch (req.body.alert_name) {
     case 'subscription_created':
 
