@@ -37,7 +37,7 @@
     "@playwright/test": "^1.54.2",
     "@types/lodash-es": "^4.17.12",
     "firebase-admin": "^13.4.0",
-    "firebase-functions": "^5"
+    "firebase-functions": "^6.0.0"
   },
   "peerDependencies": {
     "firebase-admin": "^12",
