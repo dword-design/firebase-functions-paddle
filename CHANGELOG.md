@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.26...v2.0.0) (2025-08-15)
+
+
+### Bug Fixes
+
+* lock file maintenance ([#80](https://github.com/dword-design/firebase-functions-paddle/issues/80)) ([8bd618d](https://github.com/dword-design/firebase-functions-paddle/commit/8bd618d3b16f1524351fa05bad2895cab06258b0))
+
+
+### BREAKING CHANGES
+
+* node.js >= 20
+
 ## [1.1.26](https://github.com/dword-design/firebase-functions-paddle/compare/v1.1.25...v1.1.26) (2023-03-25)
 
 
