@@ -1,3 +1,10 @@
+## [2.1.3](https://github.com/dword-design/firebase-functions-paddle/compare/v2.1.2...v2.1.3) (2025-08-21)
+
+
+### Bug Fixes
+
+* revert to v1 ([4fc939f](https://github.com/dword-design/firebase-functions-paddle/commit/4fc939fab3e2d17360bfcc496d78278f3b4dd26b))
+
 ## [2.1.2](https://github.com/dword-design/firebase-functions-paddle/compare/v2.1.1...v2.1.2) (2025-08-21)
 
 
