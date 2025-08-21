@@ -1,8 +1,6 @@
 import { Paddle } from '@paddle/paddle-node-sdk';
 import firebase from 'firebase-admin';
 import functions from 'firebase-functions/v1';
-import { onDocumentWritten } from 'firebase-functions/v2/firestore';
-import { onRequest } from 'firebase-functions/v2/https';
 import { omit, pick } from 'lodash-es';
 import { PaddleSDK } from 'paddle-sdk';
 
@@ -46,17 +44,17 @@ const getUserId = async (paddleUser: { user_id: string; email: string }) => {
   return userId;
 };
 
-export const planWritten = onDocumentWritten(
-  `/${collectionName}/{uid}/subscriptions/{subscriptionId}`,
-  async event => {
-    const user = await firebase.auth().getUser(event.params.uid);
+export const planWritten = functions.firestore
+  .document(`/${collectionName}/{uid}/subscriptions/{subscriptionId}`)
+  .onWrite(async (change, context) => {
+    const user = await firebase.auth().getUser(context.params.uid);
 
-    if (event.data?.after.exists) {
-      const subscription = event.data.after.data() as Subscription;
+    if (change.after.exists) {
+      const subscription = change.after.data() as Subscription;
 
       await firebase
         .auth()
-        .setCustomUserClaims(event.params.uid, {
+        .setCustomUserClaims(context.params.uid, {
           ...user.customClaims,
           paddlePlanId: subscription.subscription_plan_id,
           paddleSubscriptionId: subscription.subscription_id,
@@ -65,12 +63,11 @@ export const planWritten = onDocumentWritten(
       await firebase
         .auth()
         .setCustomUserClaims(
-          event.params.uid,
+          context.params.uid,
           omit(user.customClaims, ['paddlePlanId']),
         );
     }
-  },
-);
+  });
 
 export const userDeleted = functions.auth.user().onDelete(async user => {
   if (user.customClaims?.paddleSubscriptionId !== undefined) {
@@ -78,7 +75,7 @@ export const userDeleted = functions.auth.user().onDelete(async user => {
   }
 });
 
-export const webHook = onRequest(async (req, res) => {
+export const webHook = functions.https.onRequest(async (req, res) => {
   if (isPaddleBilling) {
     console.log(req.body);
     return;
