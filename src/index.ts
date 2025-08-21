@@ -1,7 +1,8 @@
 import { Paddle } from '@paddle/paddle-node-sdk';
 import firebase from 'firebase-admin';
-import functions from 'firebase-functions';
+import functions from 'firebase-functions/v1';
 import { onDocumentWritten } from 'firebase-functions/v2/firestore';
+import { onRequest } from 'firebase-functions/v2/https';
 import { omit, pick } from 'lodash-es';
 import { PaddleSDK } from 'paddle-sdk';
 
@@ -77,7 +78,7 @@ export const userDeleted = functions.auth.user().onDelete(async user => {
   }
 });
 
-export const webHook = functions.https.onRequest(async (req, res) => {
+export const webHook = onRequest(async (req, res) => {
   if (isPaddleBilling) {
     console.log(req.body);
     return;
