@@ -1,3 +1,10 @@
+## [2.1.4](https://github.com/dword-design/firebase-functions-paddle/compare/v2.1.3...v2.1.4) (2025-08-22)
+
+
+### Bug Fixes
+
+* set region ([595a950](https://github.com/dword-design/firebase-functions-paddle/commit/595a9509b254bc235acd9f5c50b6916bbdb9c321))
+
 ## [2.1.3](https://github.com/dword-design/firebase-functions-paddle/compare/v2.1.2...v2.1.3) (2025-08-21)
 
 
