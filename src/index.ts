@@ -44,8 +44,9 @@ const getUserId = async (paddleUser: { user_id: string; email: string }) => {
   return userId;
 };
 
-export const planWritten = functions.firestore
-  .document(`/${collectionName}/{uid}/subscriptions/{subscriptionId}`)
+export const planWritten = functions
+  .region('europe-west1')
+  .firestore.document(`/${collectionName}/{uid}/subscriptions/{subscriptionId}`)
   .onWrite(async (change, context) => {
     const user = await firebase.auth().getUser(context.params.uid);
 
@@ -69,92 +70,100 @@ export const planWritten = functions.firestore
     }
   });
 
-export const userDeleted = functions.auth.user().onDelete(async user => {
-  if (user.customClaims?.paddleSubscriptionId !== undefined) {
-    await cancelSubscription(user.customClaims.paddleSubscriptionId);
-  }
-});
+export const userDeleted = functions
+  .region('europe-west1')
+  .auth.user()
+  .onDelete(async user => {
+    if (user.customClaims?.paddleSubscriptionId !== undefined) {
+      await cancelSubscription(user.customClaims.paddleSubscriptionId);
+    }
+  });
 
-export const webHook = functions.https.onRequest(async (req, res) => {
-  if (isPaddleBilling) {
-    console.log(req.body);
-    return;
-  }
+export const webHook = functions
+  .region('europe-west1')
+  .https.onRequest(async (req, res) => {
+    if (isPaddleBilling) {
+      console.log(req.body);
+      return;
+    }
 
-  switch (req.body.alert_name) {
-    case 'subscription_created':
+    switch (req.body.alert_name) {
+      case 'subscription_created':
 
-    case 'subscription_updated': {
-      const userId = await getUserId(req.body);
+      case 'subscription_updated': {
+        const userId = await getUserId(req.body);
 
-      await firebase
-        .firestore()
-        .doc(`${collectionName}/${userId}`)
-        .set({ ...pick(req.body, ['email']), paddleUserId: req.body.user_id });
-
-      // delete artificial subscriptions when a real subscription is created
-      if (req.body.alert_name === 'subscription_created') {
-        const { docs: subscriptions } = await firebase
+        await firebase
           .firestore()
-          .collection(`${collectionName}/${userId}/subscriptions`)
-          .get();
+          .doc(`${collectionName}/${userId}`)
+          .set({
+            ...pick(req.body, ['email']),
+            paddleUserId: req.body.user_id,
+          });
 
-        const artificialSubscriptionIds = subscriptions
-          .filter(snapshot => snapshot.data().subscription_id === undefined)
-          .map(_ => _.id);
+        // delete artificial subscriptions when a real subscription is created
+        if (req.body.alert_name === 'subscription_created') {
+          const { docs: subscriptions } = await firebase
+            .firestore()
+            .collection(`${collectionName}/${userId}/subscriptions`)
+            .get();
 
-        const batch = firebase.firestore().batch();
+          const artificialSubscriptionIds = subscriptions
+            .filter(snapshot => snapshot.data().subscription_id === undefined)
+            .map(_ => _.id);
 
-        for (const id of artificialSubscriptionIds) {
-          batch.delete(
-            firebase
-              .firestore()
-              .doc(`${collectionName}/${userId}/subscriptions/${id}`),
-          );
+          const batch = firebase.firestore().batch();
+
+          for (const id of artificialSubscriptionIds) {
+            batch.delete(
+              firebase
+                .firestore()
+                .doc(`${collectionName}/${userId}/subscriptions/${id}`),
+            );
+          }
+
+          await batch.commit();
         }
 
-        await batch.commit();
+        await firebase
+          .firestore()
+          .doc(
+            `${collectionName}/${userId}/subscriptions/${req.body.subscription_id}`,
+          )
+          .set(
+            pick(req.body, [
+              'cancel_url',
+              'checkout_id',
+              'currency',
+              'marketing_consent',
+              'quantity',
+              'status',
+              'subscription_id',
+              'subscription_plan_id',
+              'unit_price',
+              'update_url',
+              'user_id',
+            ]),
+          );
+
+        break;
       }
 
-      await firebase
-        .firestore()
-        .doc(
-          `${collectionName}/${userId}/subscriptions/${req.body.subscription_id}`,
-        )
-        .set(
-          pick(req.body, [
-            'cancel_url',
-            'checkout_id',
-            'currency',
-            'marketing_consent',
-            'quantity',
-            'status',
-            'subscription_id',
-            'subscription_plan_id',
-            'unit_price',
-            'update_url',
-            'user_id',
-          ]),
-        );
+      case 'subscription_cancelled': {
+        const userId = await getUserId(req.body);
 
-      break;
+        await firebase
+          .firestore()
+          .doc(
+            `${collectionName}/${userId}/subscriptions/${req.body.subscription_id}`,
+          )
+          .delete();
+
+        break;
+      }
+
+      default:
     }
 
-    case 'subscription_cancelled': {
-      const userId = await getUserId(req.body);
-
-      await firebase
-        .firestore()
-        .doc(
-          `${collectionName}/${userId}/subscriptions/${req.body.subscription_id}`,
-        )
-        .delete();
-
-      break;
-    }
-
-    default:
-  }
-
-  res.end();
-});
+    res.end();
+  });
