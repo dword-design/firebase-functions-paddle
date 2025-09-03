@@ -1,3 +1,10 @@
+## [2.1.5](https://github.com/dword-design/firebase-functions-paddle/compare/v2.1.4...v2.1.5) (2025-09-03)
+
+
+### Bug Fixes
+
+* remove paddle billing again ([77f58cf](https://github.com/dword-design/firebase-functions-paddle/commit/77f58cf29b27d72d71878de4a48acb6e86d2d338))
+
 ## [2.1.4](https://github.com/dword-design/firebase-functions-paddle/compare/v2.1.3...v2.1.4) (2025-08-22)
 
 
