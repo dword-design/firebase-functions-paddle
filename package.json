@@ -33,7 +33,7 @@
     "paddle-sdk": "^4"
   },
   "devDependencies": {
-    "@dword-design/base": "^15.3.6",
+    "@dword-design/base": "^16.0.0",
     "@playwright/test": "^1.54.2",
     "@types/lodash-es": "^4.17.12",
     "firebase-admin": "^13.4.0",
